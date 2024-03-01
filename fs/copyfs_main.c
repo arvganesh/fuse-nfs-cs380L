@@ -38,9 +38,8 @@ int update_fuse_args(int* argc_ptr, char** argv) {
     return 0;
 }
 
-
 int main(int argc, char** argv) {
-    // argv: ./copyfs mount_dir remote_ip:root_dir cache_dir
+    // usage: ./copyfs mount_dir remote_ip:root_dir cache_dir
 
     // assume valid argv input.
     if (argc < 4) {
