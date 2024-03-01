@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 
     // assume valid argv input.
     if (argc < 4) {
-        fprintf(stderr, "Must supply a root directory and mount directory.");
+        fprintf(stderr, "Must supply a root directory, mount directory, and cache directory.");
         return -1;
     }
 
