@@ -1,3 +1,6 @@
+#ifndef _FILE_H
+#define _FILE_H
+
 enum fd_status {
     CLOSED,
     RESIDENT, // open and in cache dir
@@ -12,3 +15,5 @@ struct file_descriptor {
 };
 
 struct file_descriptor* lazy_open(const char* path, int flags);
+
+#endif

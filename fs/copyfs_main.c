@@ -14,15 +14,21 @@ int populate_fs_metadata(int argc, char** argv, struct copyfs_data* data) {
 
     char* cache_dir = argv[argc - 1];
     data->cache_dir = realpath(cache_dir, NULL);
-    assert(data->cache_dir);
+    if(!data->cache_dir) {
+        fprintf(stderr, "Error getting path\n");
+    }
 
     char* remote_root_dir = argv[argc - 2];
     data->remote_root_dir = remote_root_dir;
-    assert(data->remote_root_dir);
+    if(!data->remote_root_dir) {
+        fprintf(stderr, "Error getting path\n");
+    }
 
     char* mount_dir = argv[argc - 3];
     data->mount_dir = realpath(mount_dir, NULL);
-    assert(data->mount_dir);
+    if(!data->mount_dir) {
+        fprintf(stderr, "Error getting path\n");
+    }
     return 0;
 }
 
