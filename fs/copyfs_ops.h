@@ -1,13 +1,16 @@
 #ifndef __COPYFS_OPS_H
 #define __COPYFS_OPS_H
 
+#define FUSE_USE_VERSION 26
+
 #include <fuse.h>
+#include <sys/types.h>
 
 int copyfs_open(const char* path, struct fuse_file_info* fi);
 
 int copyfs_read(const char* path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi);
 
-int copyfs_write(const char* path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi);
+int copyfs_write(const char* path, const char *buf, size_t size, off_t offset, struct fuse_file_info* fi);
 
 int copyfs_getattr(const char* path, struct stat* stbuf);
 

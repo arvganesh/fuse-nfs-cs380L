@@ -1,10 +1,10 @@
+#include "copyfs_ops.h"
+
 #include <fuse.h>
 #include <errno.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "copyfs_ops.h"
 
 extern struct fuse_operations copyfs_ops;
 
@@ -56,5 +56,6 @@ int main(int argc, char** argv) {
     // fuse only needs the mount dir
     update_fuse_args(&argc, argv);
     // umask(0);
+    printf("Mounting filesystem on %s\n", argv[argc - 1]);
     return fuse_main(argc, argv, &copyfs_ops, copyfs_data);
 }
