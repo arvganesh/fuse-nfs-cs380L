@@ -12,6 +12,10 @@ struct copyfs_data {
     char* cache_dir; // <absolute path on local machine>
 };
 
+static int get_full_path() {
+    
+}
+
 int populate_fs_metadata(int argc, char** argv, struct copyfs_data* data) {
     data = malloc(sizeof(struct copyfs_data));
     if (!data) exit(EXIT_FAILURE);
