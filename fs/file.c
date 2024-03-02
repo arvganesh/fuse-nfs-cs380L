@@ -11,3 +11,8 @@ struct file_descriptor* lazy_open(const char* path, int flags) {
 
     return new_fd;
 }
+
+int make_resident(struct file_descriptor* fd) {
+    struct fuse_context* context = fuse_get_context();
+    char* cache_path = (struct copyfs_data*) context->private_data
+}

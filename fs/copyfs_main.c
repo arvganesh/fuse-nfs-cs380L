@@ -4,17 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "copyfs_ops.h"
+
 extern struct fuse_operations copyfs_ops;
-
-struct copyfs_data {
-    char* remote_root_dir; // remote_ip:<absolute path on remote machine>
-    char* mount_dir; // <absolute path on local machine>
-    char* cache_dir; // <absolute path on local machine>
-};
-
-static int get_full_path() {
-    
-}
 
 int populate_fs_metadata(int argc, char** argv, struct copyfs_data* data) {
     data = malloc(sizeof(struct copyfs_data));
