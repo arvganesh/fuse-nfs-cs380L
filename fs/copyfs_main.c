@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 
     // assume valid argv input.
     if (argc < 4) {
-        fprintf(stderr, "Must supply a root directory, mount directory, and cache directory.");
+        fprintf(stderr, "Must supply a root directory, mount directory, and cache directory.\n");
         return -1;
     }
 
@@ -49,6 +49,6 @@ int main(int argc, char** argv) {
 
     // fuse only needs the mount dir
     update_fuse_args(&argc, argv);
-
+    // umask(0);
     return fuse_main(argc, argv, &copyfs_ops, copyfs_data);
 }

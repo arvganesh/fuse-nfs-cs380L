@@ -40,7 +40,7 @@ int make_resident(struct file_descriptor* fd) {
 // lazy open, doesn't actually copy from server till data is needed.
 int copyfs_open(const char* path, struct fuse_file_info* fi) {
     if ((fi->fh = (uint64_t) lazy_open(path, fi->flags)) < 0) {
-        fprintf(stderr, "Failed to add file %s to file table.", path);
+        fprintf(stderr, "Failed to add file %s to file table.\n", path);
         return -1;
     }
     return 0;
@@ -48,6 +48,7 @@ int copyfs_open(const char* path, struct fuse_file_info* fi) {
 
 int copyfs_read(const char* path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi) {
     struct file_descriptor* fd = (struct file_descriptor*) fi->fh;
+    int num_bytes;
     if (fd->status == NON_RESIDENT) {
         if (make_resident(fd) < 0) {
             return -1;
@@ -59,17 +60,18 @@ int copyfs_read(const char* path, char *buf, size_t size, off_t offset, struct f
         perror("copyfs_read lseek");
         return -1;
     }
-
-    if (read(fd->fdnum, buf, size) < 0) {
+    
+    if ((num_bytes = read(fd->fdnum, buf, size)) < 0) {
         perror("copyfs_read read");
         return -1;
     }
 
-    return 0;
+    return num_bytes;
 }
 
 int copyfs_write(const char* path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi) {
     struct file_descriptor* fd = (struct file_descriptor*) fi->fh;
+    int num_bytes;
     if (fd->status == NON_RESIDENT) {
         if (make_resident(fd) < 0) {
             return -1;
@@ -82,12 +84,12 @@ int copyfs_write(const char* path, char *buf, size_t size, off_t offset, struct 
         return -1;
     }
 
-    if (write(fd->fdnum, buf, size) < 0) {
+    if ((num_bytes = (fd->fdnum, buf, size)) < 0) {
         perror("copyfs_write write");
         return -1;
     }
 
-    return 0;
+    return num_bytes;
 }
 
 int copyfs_getattr(const char* path, struct stat* stbuf) {
