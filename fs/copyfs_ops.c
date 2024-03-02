@@ -90,9 +90,15 @@ int copyfs_write(const char* path, char *buf, size_t size, off_t offset, struct 
     return 0;
 }
 
-int copyfs_getattr(const char* path, struct stat* stbuf);
+int copyfs_getattr(const char* path, struct stat* stbuf) {
+    fprintf(stderr, "Haven't implemented getattr.\n");
+    return -1;
+}
 
-int copyfs_fsync(const char* path, int isdatasync, struct fuse_file_info* fi);
+int copyfs_fsync(const char* path, int isdatasync, struct fuse_file_info* fi) {
+    fprintf(stderr, "Haven't implemented fsync.\n");
+    return -1;
+}
 
 int copyfs_release(const char* path, struct fuse_file_info *fi) {
     struct file_descriptor* fd = (struct file_descriptor*) fi->fh;
