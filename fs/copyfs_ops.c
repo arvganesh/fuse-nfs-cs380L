@@ -16,20 +16,28 @@ struct fuse_operations copyfs_ops = {
     .release = copyfs_release
 };
 
-int make_resident(struct file_descriptor* fd) {
-    // Get absolute path to open in cache directory.
+int get_full_path(char* full_cache_path, char* relative_path) {
     char* cache_dir = COPYFS_DATA->cache_dir;
-    char full_cache_path[512]; // should be big enough.
     if (!strcpy(full_cache_path, cache_dir)) {
         return -1;
     }
     
-    if (!strcat(full_cache_path, fd->path)) {
+    if (!strcat(full_cache_path, relative_path)) {
         return -1;
     }
+    return 0;
+}
+
+int make_resident(struct file_descriptor* fd) {
+    // Get absolute path to open in cache directory.
+    char full_cache_path[512]; // should be big enough.
+    if (get_full_path(full_cache_path, fd->path) < 0) {
+        fprintf(stderr, "make_resident: Error getting full cache path\n.");
+        return -1;
+    }
+    
 
     // TODO: copy to cache, for now using locally created test files.
-
     if ((fd->fdnum = open(full_cache_path, fd->flags)) < 0) {
         perror("make_resident open");
         return -1;
@@ -94,8 +102,21 @@ int copyfs_write(const char* path, const char *buf, size_t size, off_t offset, s
 }
 
 int copyfs_getattr(const char* path, struct stat* stbuf) {
-    fprintf(stderr, "Haven't implemented getattr.\n");
-    return -1;
+    // TODO: copy to cache if file exists remotely.
+
+    char full_cache_path[512]; // should be big enough.
+    if (get_full_path(full_cache_path, path) < 0) {
+        fprintf(stderr, "make_resident: Error getting full cache path\n.");
+        return -1;
+    }
+
+    // file is guaranteed to be resident now.
+    if (lstat(full_cache_path, stbuf) < 0) {
+        perror("copyfs_getattr lstat");
+        return -1;
+    }
+
+    return 0;
 }
 
 int copyfs_fsync(const char* path, int isdatasync, struct fuse_file_info* fi) {

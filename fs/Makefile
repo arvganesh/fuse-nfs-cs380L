@@ -1,4 +1,4 @@
-CFLAGS	= -g $(PKGFLAGS) -Wall
+CFLAGS	=  -g $(PKGFLAGS) -Wall
 PKGFLAGS = `pkg-config fuse --cflags --libs`
 
 copyfs: copyfs_main.o copyfs_ops.o file.o

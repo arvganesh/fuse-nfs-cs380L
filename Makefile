@@ -1,6 +1,6 @@
-TEST_DIRS = `pwd`/mount_dir `pwd`/root_dir `pwd`/cache_dir
+TEST_DIRS = `pwd`/mount_dirs/md1 `pwd`/root_dir `pwd`/cache_dir
 DEBUG_FLAGS = -o default_permissions -d -s
-
+ALL_FLAGS =  -o default_permissions -d -s `pwd`/mount_dirs/md2 `pwd`/root_dir `pwd`/cache_dir
 compile:
 	make -C fs/
 

@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
 
     // fuse only needs the mount dir
     update_fuse_args(&argc, argv);
-    // umask(0);
+    umask(0);
     printf("Mounting filesystem on %s\n", argv[argc - 1]);
     return fuse_main(argc, argv, &copyfs_ops, copyfs_data);
 }
