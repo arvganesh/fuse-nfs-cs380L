@@ -9,9 +9,6 @@
 extern struct fuse_operations copyfs_ops;
 
 int populate_fs_metadata(int argc, char** argv, struct copyfs_data* data) {
-    data = malloc(sizeof(struct copyfs_data));
-    if (!data) exit(EXIT_FAILURE);
-
     char* cache_dir = argv[argc - 1];
     data->cache_dir = realpath(cache_dir, NULL);
     if(!data->cache_dir) {
@@ -50,12 +47,15 @@ int main(int argc, char** argv) {
     }
 
     // populate 
-    struct copyfs_data* copyfs_data;
-    populate_fs_metadata(argc, argv, copyfs_data);
+    struct copyfs_data* fs_data;
+    fs_data = malloc(sizeof(struct copyfs_data));
+    if (!fs_data) exit(EXIT_FAILURE);
+    populate_fs_metadata(argc, argv, fs_data);
+    fprintf(stderr, "Mount: %s\nRoot: %s\nCache: %s\n", fs_data->mount_dir, fs_data->remote_root_dir, fs_data->cache_dir);
 
     // fuse only needs the mount dir
     update_fuse_args(&argc, argv);
     umask(0);
     printf("Mounting filesystem on %s\n", argv[argc - 1]);
-    return fuse_main(argc, argv, &copyfs_ops, copyfs_data);
+    return fuse_main(argc, argv, &copyfs_ops, fs_data);
 }

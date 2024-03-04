@@ -17,7 +17,8 @@ struct fuse_operations copyfs_ops = {
 };
 
 int get_full_path(char* full_cache_path, char* relative_path) {
-    char* cache_dir = COPYFS_DATA->cache_dir;
+    struct copyfs_data* cur_context = COPYFS_DATA;
+    char* cache_dir = cur_context->cache_dir;
     if (!strcpy(full_cache_path, cache_dir)) {
         return -1;
     }
