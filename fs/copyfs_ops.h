@@ -18,7 +18,9 @@ int copyfs_fsync(const char* path, int isdatasync, struct fuse_file_info* fi);
 
 int copyfs_release(const char* path, struct fuse_file_info *fi);
 
-int get_full_path(char* full_cache_path, char* relative_path);
+int copyfs_truncate(const char* path, off_t size);
+
+int get_full_path(char* path_buffer, const char* relative_path, const char* base_type);
 
 struct copyfs_data {
     char* remote_root_dir; // remote_ip:<absolute path on remote machine>

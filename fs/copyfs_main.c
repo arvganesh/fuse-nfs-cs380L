@@ -12,19 +12,22 @@ int populate_fs_metadata(int argc, char** argv, struct copyfs_data* data) {
     char* cache_dir = argv[argc - 1];
     data->cache_dir = realpath(cache_dir, NULL);
     if(!data->cache_dir) {
-        fprintf(stderr, "Error getting path\n");
+        fprintf(stderr, "Error getting cache dir\n");
+        exit(EXIT_FAILURE);
     }
 
     char* remote_root_dir = argv[argc - 2];
     data->remote_root_dir = remote_root_dir;
     if(!data->remote_root_dir) {
-        fprintf(stderr, "Error getting path\n");
+        fprintf(stderr, "Error getting remote root\n");
+        exit(EXIT_FAILURE);
     }
 
     char* mount_dir = argv[argc - 3];
     data->mount_dir = realpath(mount_dir, NULL);
     if(!data->mount_dir) {
-        fprintf(stderr, "Error getting path\n");
+        fprintf(stderr, "Error getting mount dir\n");
+        exit(EXIT_FAILURE);
     }
     return 0;
 }
