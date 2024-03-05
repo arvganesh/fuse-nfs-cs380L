@@ -17,6 +17,7 @@ run-debug:
 	fs/copyfs $(DEBUG_FLAGS) $(TEST_DIRS)
 
 run:
+	rm -rf $(CACHE_DIR)*
 	fs/copyfs $(RUN_FLAGS) $(TEST_DIRS)
 
 unmount-mac:
