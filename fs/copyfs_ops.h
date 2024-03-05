@@ -20,6 +20,8 @@ int copyfs_release(const char* path, struct fuse_file_info *fi);
 
 int copyfs_truncate(const char* path, off_t size);
 
+int copyfs_destroy(void* private_data);
+
 int get_full_path(char* path_buffer, const char* relative_path, const char* base_type);
 
 struct copyfs_data {

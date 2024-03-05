@@ -53,8 +53,6 @@ int copy_to_remote(char* remote_path, char* local_path) {
 }
 
 int make_resident(const char* path, struct file_descriptor* fd) {
-    fprintf(stderr, "make_resident: path %s, fd_ptr: %lu\n", path, (uint64_t) fd);
-
     // Get absolute path to open in cache directory.
     char full_cache_path[512]; // should be big enough.
     if (get_full_path(full_cache_path, path, "cache") < 0) {
@@ -92,6 +90,7 @@ int make_resident(const char* path, struct file_descriptor* fd) {
 
     return 0;
 }
+
 // lazy open, doesn't actually copy from server till data is needed.
 int copyfs_open(const char* path, struct fuse_file_info* fi) {
     if (!(fi->fh = (uint64_t) lazy_open(path, fi->flags))) {
@@ -161,7 +160,6 @@ int copyfs_getattr(const char* path, struct stat* stbuf) {
         return -1;
     }
 
-    fprintf(stderr, "copyfs_getattr directory: %s\n", full_cache_path);
     if (lstat(full_cache_path, stbuf) < 0) {
         perror("copyfs_getattr: lstat");
         return -1;
