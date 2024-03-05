@@ -5,7 +5,7 @@ CACHE_DIR = $(BASE_DIR)/cache_dir/
 
 TEST_DIRS =  $(MOUNT_DIR) $(ROOT_DIR) $(CACHE_DIR)
 DEBUG_FLAGS = -o default_permissions -d -s
-RUN_FLAGS = -s -o default_permissions
+RUN_FLAGS = -o default_permissions
 
 compile:
 	make -C fs/

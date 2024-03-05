@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 struct fuse_operations copyfs_ops = {
@@ -43,12 +44,12 @@ int get_full_path(char* path_buffer, const char* relative_path, const char* base
 
 // full remote path, absolute local path
 int copy_from_remote(char* remote_path, char* local_path) {
-    FILE* file = rsync_wrapper(remote_path, local_path, "-tr");
+    FILE* file = rsync_wrapper(remote_path, local_path, "-tr", true);
     return file == NULL ? -1 : 0;
 }
 
 int copy_to_remote(char* remote_path, char* local_path) {
-    FILE* file = rsync_wrapper(local_path, remote_path, "-tr");
+    FILE* file = rsync_wrapper(local_path, remote_path, "-tr", false);
     return file == NULL ? -1 : 0;
 }
 

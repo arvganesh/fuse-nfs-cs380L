@@ -1,6 +1,6 @@
 #include "copyfs_network.h"
 
-FILE* rsync_wrapper(char* source, char* dest, char* opts) {
+FILE* rsync_wrapper(char* source, char* dest, char* opts, bool wait_on_copy) {
     char command[512];
     
     if (strcpy(command, "rsync") < 0) return NULL;
@@ -16,11 +16,13 @@ FILE* rsync_wrapper(char* source, char* dest, char* opts) {
     FILE* f = popen(command, "r");
 
     // Wait for the child process to finish.
-    int status = pclose(f);
-    fprintf(stderr, "rsync STATUS: %d\n", status);
-    if (status != 0) {
-        perror("pclose() failed");
-        return NULL;
+    if (wait_on_copy) {
+        int status = pclose(f);
+        fprintf(stderr, "rsync STATUS: %d\n", status);
+        if (status != 0) {
+            perror("pclose() failed");
+            return NULL;
+        }
     }
 
     return f;
